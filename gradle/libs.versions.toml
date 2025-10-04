@@ -1,7 +1,7 @@
 [versions]
 # Plugins
-android-gradle-plugin = "8.1.4"
-kotlin = "1.9.10"
+android-gradle-plugin = "8.9.1"
+kotlin = "2.2.0"
 google-services = "4.4.3"
 navigation-safeargs = "2.7.5"
 
@@ -36,6 +36,8 @@ androidx-compose-compiler = "1.5.4"
 
 # Coroutines
 kotlinx-coroutines = "1.7.3"
+
+firebase-crashlytics = "3.0.6"
 
 # Testing
 junit = "4.13.2"
@@ -92,3 +94,5 @@ android-application = { id = "com.android.application", version.ref = "android-g
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation-safeargs" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }

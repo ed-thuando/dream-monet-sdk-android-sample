@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329057862857",
+    "project_id": "dream-monet-sdk",
+    "storage_bucket": "dream-monet-sdk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329057862857:android:8eae0742296e7a05ac7918",
+        "android_client_info": {
+          "package_name": "com.dream.monet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7YLJg0ZvqB_-_rN1C9od15MAuuiFkmD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
