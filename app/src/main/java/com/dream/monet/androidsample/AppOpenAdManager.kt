@@ -9,12 +9,19 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.dream.monet.ads.api.common.CommonAppOpenAd
 import com.dream.monet.ads.listeners.adtype.FullScreenAdListener
 import com.dream.monet.ads.listeners.base.AdLoadListener
+import com.dream.monet.androidsample.ui.splash.SplashActivity
+import com.google.android.gms.ads.AdActivity
 
 class AppOpenAdManager(private val application: Application) : LifecycleObserver {
 
     companion object {
         private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/9257395921" // Test ad unit
     }
+
+    private val ignoredActivity = setOf(
+        SplashActivity::class.java,
+        AdActivity::class.java,
+    )
 
     private var appOpenAd: CommonAppOpenAd? = null
     private var isLoadingAd = false
@@ -26,11 +33,13 @@ class AppOpenAdManager(private val application: Application) : LifecycleObserver
         application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
             override fun onActivityStarted(activity: Activity) {
-                currentActivity = activity
-            }
-            override fun onActivityResumed(activity: Activity) {
+                if (activity.javaClass in ignoredActivity) return
                 currentActivity = activity
                 showAdIfAvailable()
+            }
+            override fun onActivityResumed(activity: Activity) {
+                if (activity.javaClass in ignoredActivity) return
+                currentActivity = activity
             }
             override fun onActivityPaused(activity: Activity) {}
             override fun onActivityStopped(activity: Activity) {}
