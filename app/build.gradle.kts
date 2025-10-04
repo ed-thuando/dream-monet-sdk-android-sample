@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.dreammonetsample"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.dreammonetsample"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -54,7 +54,7 @@ android {
 
 dependencies {
     // Dream Monet Ads SDK
-    implementation("com.dream.monet:1.0.0-alpha01-SNAPSHOT")
+    implementation("com.dream.monet:ads:1.0.0-alpha01-SNAPSHOT")
 
     // Required: Firebase (if not already added)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))

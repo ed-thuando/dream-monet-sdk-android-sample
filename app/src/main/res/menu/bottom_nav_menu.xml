@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_xml"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="@string/xml_screen" />
+
+    <item
+        android:id="@+id/navigation_compose"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="@string/compose_screen" />
+
+</menu>
