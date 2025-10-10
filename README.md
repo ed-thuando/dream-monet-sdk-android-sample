@@ -85,7 +85,7 @@ Add the SDK dependency to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Dream Monet Ads SDK
-    implementation("com.dream.monet:1.0.0-alpha01-SNAPSHOT")
+    implementation("com.dream.monet:1.0.0-alpha02-SNAPSHOT")
 
     // Required: Firebase (if not already added)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
@@ -155,8 +155,19 @@ class MyApplication : Application() {
             try {
                 // Initialize SDK with AdMob and MAX
                 val initResult = SDKManager.initialize(
-                    context = this@MyApplication,
-                    maxSdkKey = "YOUR_APPLOVIN_MAX_SDK_KEY" // Optional, pass null if not using MAX
+                    this@DreamMonetApplication,
+                    config = InitializeConfig.builder()
+                        .enableAdMob(true)
+                        .setMaxSdkKey(
+                            "YOUR-MAX-SDK-KEY"
+                        )
+                        .setSingularKeys(
+                            SingularKeys(
+                                sdkKey = "your-singular-sdk-key",
+                                sdkSecret = "your-singular-secret-key",
+                            )
+                        )
+                        .build()
                 )
 
                 if (initResult.isSuccess) {
@@ -1014,7 +1025,7 @@ For support and questions, please contact:
 
 ## Changelog
 
-### Version 1.0.0-alpha01-SNAPSHOT
+### Version 1.0.0-alpha02-SNAPSHOT
 - Initial release
 - Support for AdMob and AppLovin MAX
 - Banner, Native, Interstitial, Rewarded, and App Open ads
