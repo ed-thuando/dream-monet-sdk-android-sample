@@ -74,6 +74,7 @@ dependencyResolutionManagement {
                 password = settings.providers.gradleProperty("NEXUS_PASSWORD").orNull
             }
         }
+        maven{ url = uri("https://maven.singular.net/") }
     }
 }
 ```
@@ -85,7 +86,7 @@ Add the SDK dependency to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Dream Monet Ads SDK
-    implementation("com.dream.monet:1.0.0-alpha02-SNAPSHOT")
+    implementation("com.dream.monet:1.0.0-alpha03-SNAPSHOT")
 
     // Required: Firebase (if not already added)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
@@ -1025,7 +1026,7 @@ For support and questions, please contact:
 
 ## Changelog
 
-### Version 1.0.0-alpha02-SNAPSHOT
+### Version 1.0.0-alpha03-SNAPSHOT
 - Initial release
 - Support for AdMob and AppLovin MAX
 - Banner, Native, Interstitial, Rewarded, and App Open ads
