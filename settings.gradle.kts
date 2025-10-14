@@ -27,6 +27,7 @@ dependencyResolutionManagement {
                 password = settings.providers.gradleProperty("NEXUS_PASSWORD").orNull
             }
         }
+        maven{ url = uri("https://maven.singular.net/") }
     }
 }
 

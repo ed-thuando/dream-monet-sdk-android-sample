@@ -2,6 +2,7 @@ package com.dream.monet.androidsample
 
 import android.app.Application
 import android.util.Log
+import com.dream.monet.ads.core.models.InitializeConfig
 import com.dream.monet.ads.manager.SDKManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -54,7 +55,7 @@ class MyApplication : Application() {
                 // Initialize SDK with AdMob and MAX
                 val initResult = SDKManager.initialize(
                     context = this@MyApplication,
-                    maxSdkKey = null // Set to null if not using AppLovin MAX, or provide your SDK key
+                    config = InitializeConfig.builder().build()
                 )
 
                 if (initResult.isSuccess) {
