@@ -53,9 +53,17 @@ class MyApplication : Application() {
         applicationScope.launch {
             try {
                 // Initialize SDK with AdMob and MAX
+                // TODO - update your own config here
                 val initResult = SDKManager.initialize(
                     context = this@MyApplication,
-                    config = InitializeConfig.builder().build()
+                    config = InitializeConfig.builder()
+                        .setMaxSdkKey("Your-max-sdk")
+                        .setTestDeviceIds(
+                            setOf(
+                                "Your-device-id"
+                            )
+                        )
+                        .build()
                 )
 
                 if (initResult.isSuccess) {
