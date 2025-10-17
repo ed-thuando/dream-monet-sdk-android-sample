@@ -50,25 +50,71 @@
             android:layout_marginVertical="16dp"
             android:background="#DDDDDD" />
 
-        <Button
-            android:id="@+id/showInterstitialButton"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/show_interstitial"/>
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/showRewardedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/show_rewarded"/>
+            <Button
+                android:id="@+id/loadInterstitialButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/load_interstitial"
+                android:layout_margin="4dp"/>
+            <Button
+                android:id="@+id/showInterstitialButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="@string/show_interstitial"/>
 
-        <Button
-            android:id="@+id/showAppOpenButton"
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/show_app_open"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/loadRewardedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/load_rewarded"
+                android:layout_margin="4dp"/>
+            <Button
+                android:id="@+id/showRewardedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="@string/show_rewarded"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/loadAppOpenButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/load_app_open"
+                android:layout_margin="4dp"/>
+            <Button
+                android:id="@+id/showAppOpenButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="@string/show_app_open"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>
 </ScrollView>

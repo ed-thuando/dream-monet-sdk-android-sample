@@ -112,8 +112,15 @@ class XmlFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
+        binding.loadInterstitialButton.setOnClickListener {
+            loadInterstitialAd()
+        }
         binding.showInterstitialButton.setOnClickListener {
             showInterstitialAd()
+        }
+
+        binding.loadRewardedButton.setOnClickListener {
+            loadRewardedAd()
         }
 
         binding.showRewardedButton.setOnClickListener {
@@ -132,8 +139,6 @@ class XmlFragment : Fragment() {
 
             // Load other ads
             nativeAd.load(requireContext())
-            interstitialAd.load(requireContext())
-            rewardedAd.load(requireContext())
         }
     }
 
@@ -147,6 +152,12 @@ class XmlFragment : Fragment() {
         }
     }
 
+    fun loadRewardedAd() {
+        viewLifecycleOwner.lifecycleScope.launch {
+        rewardedAd.load(requireContext())
+        }
+    }
+
     private fun showInterstitialAd() {
         if (interstitialAd.isReady()) {
             interstitialAd.show(requireActivity()) {
@@ -156,6 +167,12 @@ class XmlFragment : Fragment() {
         } else {
             Log.d("XmlFragment", "Interstitial ad not ready yet")
             Toast.makeText(requireContext(), "Interstitial ad not ready", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun loadInterstitialAd() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            interstitialAd.load(requireContext())
         }
     }
 

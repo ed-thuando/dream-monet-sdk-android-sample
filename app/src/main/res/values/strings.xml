@@ -5,11 +5,14 @@
     <string name="compose_screen">Compose Screen</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="show_interstitial">Show Interstitial</string>
+    <string name="load_interstitial">Load Interstitial</string>
     <string name="show_rewarded">Show Rewarded</string>
+    <string name="load_app_open">Load App Open</string>
     <string name="show_app_open">Show App Open</string>
     <string name="banner_ad_container">Banner Ad Container</string>
     <string name="native_ad_container">Native Ad Container</string>
     <string name="loading">Loading...</string>
     <string name="initializing_sdk">Initializing SDK...</string>
     <string name="gathering_consent">Gathering consent...</string>
+    <string name="load_rewarded">Load Rewarded</string>
 </resources>
