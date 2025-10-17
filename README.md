@@ -86,7 +86,7 @@ Add the SDK dependency to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Dream Monet Ads SDK
-    implementation("com.dream.monet:1.0.0-alpha08-SNAPSHOT")
+    implementation("com.dream.monet:ads:1.0.0-alpha08-SNAPSHOT")
 
     // Required: Firebase (if not already added)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
