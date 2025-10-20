@@ -1,6 +1,7 @@
 package com.dream.monet.androidsample.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -39,11 +40,26 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         RevenueListenerRegistry.register(object : AdRevenueListener {
-            override fun onMobileGoogleRevenue(adValue: AdValue) {
-                Toast.makeText(this@MainActivity, "onMobileGoogleRevenue ${adValue.valueMicros} $adValue", Toast.LENGTH_SHORT).show()
+
+            override fun onMobileGoogleRevenue(
+                adValue: AdValue,
+                mediationNetwork: String?,
+                adUnit: String,
+                adType: String,
+                placement: String
+            ) {
+                Log.d("AdRevenue", "onMobileGoogleRevenue:\n- valueMicros: ${adValue.valueMicros}\n- currencyCode: ${adValue.currencyCode}\n- placement: $placement\n- adUnit: $adUnit\n- adType: $adType")
             }
-            override fun onMaxRevenue(maxAd: MaxAd) {
-                Toast.makeText(this@MainActivity, "onMaxRevenue ${maxAd.revenue} $maxAd", Toast.LENGTH_SHORT).show()
+
+            override fun onMaxRevenue(
+                maxAd: MaxAd,
+                currency: String,
+                mediationNetwork: String?,
+                adUnit: String,
+                adType: String,
+                placement: String
+            ) {
+                Log.d("AdRevenue", "onMaxRevenue:\n- revenue: ${maxAd.revenue}\n- currencyCode: $currency\n- placement: $placement\n- adUnit: $adUnit\n- adType: $adType")
             }
         })
     }

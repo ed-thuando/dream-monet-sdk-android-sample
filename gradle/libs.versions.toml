@@ -11,7 +11,7 @@ min-sdk = "26"
 target-sdk = "36"
 
 # Dream Monet
-dream-monet-ads = "1.0.0-alpha11-SNAPSHOT"
+dream-monet-ads = "1.0.0-alpha12-SNAPSHOT"
 
 # Firebase
 firebase-bom = "34.2.0"
