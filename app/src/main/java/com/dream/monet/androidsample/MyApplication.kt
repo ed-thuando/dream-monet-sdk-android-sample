@@ -63,6 +63,7 @@ class MyApplication : Application() {
                                 "Your-device-id"
                             )
                         )
+                        .setAppsFlyerKeys("your-appsflyer-devkey")
                         .build()
                 )
 
