@@ -877,12 +877,171 @@ bannerAd.setListener(object : BannerAdListener() {
 
 ### Common Issues
 
-#### 1. SDK Not Initialized
+#### 1. AppsFlyer Backup Rules Conflicts
+
+The SDK includes AppsFlyer, which has backup rules in its AndroidManifest.xml to opt out of backing up Shared Preferences data. This prevents retaining the same counters and AppsFlyer ID during app reinstallation, ensuring accurate detection of new installs or re-installs.
+
+You may encounter manifest merger conflicts when integrating the SDK. Here's how to resolve them:
+
+##### Fix conflict with `fullBackupContent="true"`
+
+If you add `android:fullBackupContent="true"` in your AndroidManifest.xml, you might get this error:
+
+```
+Manifest merger failed : Attribute application@fullBackupContent value=(true)
+```
+
+**Solution**: Add `tools:replace="android:fullBackupContent"` in the `<application>` tag:
+
+```xml
+<application
+    android:fullBackupContent="true"
+    tools:replace="android:fullBackupContent"
+    ...>
+```
+
+##### Fix conflict with `dataExtractionRules="true"`
+
+If you add `android:dataExtractionRules="true"` in your AndroidManifest.xml, you might get this error:
+
+```
+Manifest merger failed : Attribute application@dataExtractionRules value=(true)
+```
+
+**Solution**: Add `tools:replace="android:dataExtractionRules"` in the `<application>` tag:
+
+```xml
+<application
+    android:dataExtractionRules="true"
+    tools:replace="android:dataExtractionRules"
+    ...>
+```
+
+##### Fix conflict with `allowBackup="false"`
+
+If you add `android:allowBackup="false"` in your AndroidManifest.xml, you might get this error:
+
+```
+Error:
+    Attribute application@allowBackup value=(false) from AndroidManifest.xml:
+    is also present at [com.appsflyer:af-android-sdk:6.14.0] AndroidManifest.xml: value=(true).
+    Suggestion: add 'tools:replace="android:allowBackup"' to <application> element at AndroidManifest.xml to override.
+```
+
+**Solution**: Add `tools:replace="android:allowBackup"` in the `<application>` tag:
+
+```xml
+<application
+    android:allowBackup="false"
+    tools:replace="android:allowBackup"
+    ...>
+```
+
+##### Merge backup rules for Android 12 and above
+
+If you're targeting Android 12+ and have your own backup rules specified (`android:dataExtractionRules="@xml/my_rules"`), you need to manually merge your backup rules with AppsFlyer's rules.
+
+**Step 1**: Add the `tools:replace` attribute as shown above.
+
+**Step 2**: Create or update your data extraction rules file (e.g., `res/xml/my_rules.xml`):
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Your custom rules here -->
+        
+        <!-- AppsFlyer exclusion rule -->
+        <exclude domain="sharedpref" path="appsflyer-data"/>
+    </cloud-backup>
+    <device-transfer>
+        <!-- Your custom rules here -->
+        
+        <!-- AppsFlyer exclusion rule -->
+        <exclude domain="sharedpref" path="appsflyer-data"/>
+    </device-transfer>
+</data-extraction-rules>
+```
+
+**Step 3**: Reference it in your AndroidManifest.xml:
+
+```xml
+<application
+    android:dataExtractionRules="@xml/my_rules"
+    tools:replace="android:dataExtractionRules"
+    ...>
+```
+
+##### Merge backup rules for Android 11 and below
+
+If you're also targeting Android 11 and lower with your own backup rules (`android:fullBackupContent="@xml/my_backup_rules"`), merge them with AppsFlyer's rules.
+
+**Step 1**: Add the `tools:replace` attribute as shown above.
+
+**Step 2**: Create or update your full backup content file (e.g., `res/xml/my_backup_rules.xml`):
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Your custom rules here -->
+    
+    <!-- AppsFlyer exclusion rule -->
+    <exclude domain="sharedpref" path="appsflyer-data"/>
+</full-backup-content>
+```
+
+**Step 3**: Reference it in your AndroidManifest.xml:
+
+```xml
+<application
+    android:fullBackupContent="@xml/my_backup_rules"
+    tools:replace="android:fullBackupContent"
+    ...>
+```
+
+##### Complete AndroidManifest.xml Example
+
+Here's a complete example with all backup rules properly configured:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        tools:replace="android:allowBackup,android:dataExtractionRules,android:fullBackupContent"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.MyApp">
+        
+        <!-- AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY"/>
+        
+        <!-- Your activities here -->
+        
+    </application>
+</manifest>
+```
+
+**Note**: Make sure to add the `tools` namespace at the top of your manifest file:
+```xml
+xmlns:tools="http://schemas.android.com/tools"
+```
+
+---
+
+#### 2. SDK Not Initialized
 **Error**: Ads not loading or crashes when calling ad methods
 
 **Solution**: Ensure `SDKManager.initialize()` is called in your Application class before loading any ads.
 
-#### 2. No Ads Loading
+#### 3. No Ads Loading
 **Possible causes**:
 - Invalid ad unit IDs
 - Network connectivity issues
@@ -895,7 +1054,7 @@ bannerAd.setListener(object : BannerAdListener() {
 - Use test ad units during development
 - Ensure consent is gathered before loading ads
 
-#### 3. Remote Config Not Updating
+#### 4. Remote Config Not Updating
 **Error**: Ad configuration not changing
 
 **Solution**:
@@ -903,7 +1062,7 @@ bannerAd.setListener(object : BannerAdListener() {
 - Call `fetchAndActivate()` to force update
 - Verify Remote Config keys match your code
 
-#### 4. Native Ads Not Displaying
+#### 5. Native Ads Not Displaying
 **Possible causes**:
 - Missing required view IDs in layout
 - Layout not properly configured
@@ -913,7 +1072,7 @@ bannerAd.setListener(object : BannerAdListener() {
 - Use `NativeAdView` as the root element
 - Check logs for binding errors
 
-#### 5. App Open Ads Not Showing
+#### 6. App Open Ads Not Showing
 **Possible causes**:
 - Ad not pre-loaded
 - Showing too frequently
