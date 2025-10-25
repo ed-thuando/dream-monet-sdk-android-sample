@@ -27,6 +27,7 @@ A comprehensive Android ads SDK that provides a unified interface for multiple a
 4. [Ad Implementation](#ad-implementation)
     - [Banner Ads](#banner-ads)
     - [Native Ads](#native-ads)
+    - [Interstitial Ads](#interstitial-ads)
     - [Rewarded Ads](#rewarded-ads)
     - [App Open Ads](#app-open-ads)
 5. [XML Layouts](#xml-layouts)
@@ -86,7 +87,7 @@ Add the SDK dependency to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Dream Monet Ads SDK
-    implementation("com.dream.monet:ads:1.0.0-alpha16-SNAPSHOT")
+    implementation("com.dream.monet:ads:1.0.0-alpha17-SNAPSHOT")
 
     // Required: Firebase (if not already added)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
@@ -448,6 +449,69 @@ class MyActivity : AppCompatActivity() {
 ```
 
 **Note**: You need to create a custom native ad layout. See the [XML Layouts](#xml-layouts) section below for a complete example.
+
+---
+
+### Interstitial Ads
+
+Interstitial ads are full-screen ads that cover the interface of their host app. They're typically displayed at natural transition points in the flow of an app, such as between activities or during the pause between levels in a game.
+
+#### Kotlin Code
+
+```kotlin
+class MyActivity : AppCompatActivity() {
+
+    private lateinit var interstitialAd: CommonInterstitialAd
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Create interstitial ad
+        interstitialAd = CommonInterstitialAd(
+            key = "my_interstitial_key", // Unique key for Remote Config
+            defaultUnitId = "ca-app-pub-3940256099942544/1033173712" // Test ad unit
+        )
+
+        // Load interstitial ad
+        lifecycleScope.launch {
+            interstitialAd.load(this@MyActivity)
+        }
+
+        // Show button
+        findViewById<Button>(R.id.showInterstitialButton).setOnClickListener {
+            showInterstitialAd()
+        }
+    }
+
+    private fun showInterstitialAd() {
+        if (interstitialAd.isReady()) {
+            interstitialAd.show(
+                activity = this,
+                callback = object : InterstitialAdShowCallback {
+                    override fun onAdShowed() {
+                        Log.d("Interstitial", "Ad showed")
+                    }
+
+                    override fun onAdDismissed() {
+                        Log.d("Interstitial", "Ad dismissed")
+                        // Pre-load next ad
+                        lifecycleScope.launch {
+                            interstitialAd.load(this@MyActivity)
+                        }
+                    }
+
+                    override fun onShowFailed(error: String) {
+                        Log.e("Interstitial", "Ad show failed: $error")
+                    }
+                }
+            )
+        } else {
+            Log.d("Interstitial", "Ad not ready yet")
+        }
+    }
+}
+```
 
 ---
 
@@ -1150,6 +1214,18 @@ CommonNativeAd(key: String, defaultUnitId: String, @LayoutRes layoutRes: Int)
 - `suspend fun show(context: Context, container: ViewGroup)`
 - `fun isReady(): Boolean`
 
+### CommonInterstitialAd
+
+#### Constructor
+```kotlin
+CommonInterstitialAd(key: String, defaultUnitId: String)
+```
+
+#### Methods
+- `suspend fun load(context: Context)`
+- `fun show(activity: Activity, callback: InterstitialAdShowCallback)`
+- `fun isReady(): Boolean`
+
 ### CommonRewardedAd
 
 #### Constructor
@@ -1190,7 +1266,7 @@ For support and questions, please contact:
 
 ## Changelog
 
-### Version 1.0.0-alpha16-SNAPSHOT
+### Version 1.0.0-alpha17-SNAPSHOT
 - Initial release
 - Support for AdMob and AppLovin MAX
 - Banner, Native, Interstitial, Rewarded, and App Open ads
