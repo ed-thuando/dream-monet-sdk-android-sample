@@ -41,4 +41,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           automatic_release_tag: "${{ steps.get_version.outputs.version }}"
-          title: "Release ${{ steps.get_version.outputs.version }}"
+          title: "${{ steps.get_version.outputs.version }}"
