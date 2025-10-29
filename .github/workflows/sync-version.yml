@@ -42,3 +42,5 @@ jobs:
           prerelease: false
           automatic_release_tag: "${{ steps.get_version.outputs.version }}"
           title: "${{ steps.get_version.outputs.version }}"
+          body: |
+            ${{ github.event.client_payload.changelog }}
