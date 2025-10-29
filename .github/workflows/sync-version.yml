@@ -27,20 +27,25 @@ jobs:
         run: |
           sed -i'' -E 's/(dream-monet-ads = ")[0-9a-zA-Z\.\-]+(")/\1${{ steps.get_version.outputs.version }}\2/' gradle/libs.versions.toml
 
+      - name: Update CHANGELOG.md
+        run: |
+          echo "${{ github.event.client_payload.changelog }}" > CHANGELOG.md
+
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add README.md gradle/libs.versions.toml
-          git commit -m "docs: Update SDK version to ${{ steps.get_version.outputs.version }}"
+          git add README.md gradle/libs.versions.toml CHANGELOG.md
+          git commit -m "docs: Update SDK version to ${{ steps.get_version.outputs.version }} and sync CHANGELOG"
           git push
 
-      - name: Create Git Tag and Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body: ${{ github.event.client_payload.changelog }}
+          draft: false
           prerelease: false
-          automatic_release_tag: "${{ steps.get_version.outputs.version }}"
-          title: "${{ steps.get_version.outputs.version }}"
-          body: |
-            ${{ github.event.client_payload.changelog }}
