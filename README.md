@@ -122,6 +122,29 @@ Don't forget to add your `google-services.json` file to the `app/` directory.
 
 ### Application Class Setup
 
+## ⚠️ Important: SDK Initialization Flow
+
+**Before using any ads functionality, you MUST follow this initialization sequence:**
+
+1. **At Application Level**: After fetching Firebase Remote Config, always invoke:
+   ```kotlin
+   SDKManager.updateRemoteConfig(remoteConfig)
+   ```
+
+2. **At Splash Screen**: Register a listener and wait for the `onUpdatedRemoteConfig()` callback:
+   ```kotlin
+   override fun onUpdatedFirebaseRemoteConfig() {
+       // Remote Config is now synced with the SDK
+       // NOW you can proceed with consent gathering and loading ads
+   }
+   ```
+
+3. **All ads actions** (loading, showing, etc.) should ONLY happen **after** the `onUpdatedRemoteConfig()` callback is triggered.
+
+**Why this matters**: The SDK needs the Remote Config data to properly configure ad units, networks, and behavior. Loading ads before this callback completes may result in incorrect configuration or ads not loading properly.
+
+---
+
 Create an Application class to initialize the SDK. This should be done once when your app starts.
 
 ```kotlin
@@ -210,6 +233,8 @@ class MyApplication : Application() {
             }
 
             // Update SDK with new remote config
+            // ⚠️ CRITICAL: This must be called after fetching Remote Config
+            // The SDK will notify listeners via onUpdatedFirebaseRemoteConfig()
             SDKManager.updateRemoteConfig(firebaseRemoteConfig)
 
         } catch (e: Exception) {
@@ -267,10 +292,11 @@ class SplashActivity : AppCompatActivity(), SDKInitializationListener {
     }
 
     override fun onUpdatedFirebaseRemoteConfig() {
-        // Called when Remote Config is fetched and updated
-        Log.d("Splash", "Remote Config updated")
+        // ⚠️ CRITICAL: This callback is triggered after SDKManager.updateRemoteConfig() is called
+        // Remote Config is now synced with the SDK
+        Log.d("Splash", "Remote Config updated - SDK is ready")
 
-        // Now gather consent
+        // NOW it's safe to gather consent and proceed with ads
         startConsentGathering()
     }
 
@@ -310,9 +336,15 @@ class SplashActivity : AppCompatActivity(), SDKInitializationListener {
 The `SDKInitializationListener` interface provides two callbacks:
 
 1. **`onInitializationComplete(success: Boolean, errorMessage: String?)`**: Called when SDK initialization completes
-2. **`onUpdatedFirebaseRemoteConfig()`**: Called when Firebase Remote Config is fetched and updated
+2. **`onUpdatedFirebaseRemoteConfig()`**: Called when Firebase Remote Config is fetched and updated via `SDKManager.updateRemoteConfig()`
 
-**Important**: Always wait for `onUpdatedFirebaseRemoteConfig()` before gathering consent or loading ads to ensure you have the latest configuration.
+**⚠️ CRITICAL - Initialization Flow:**
+
+1. At **Application level**: Fetch Remote Config → Call `SDKManager.updateRemoteConfig(remoteConfig)`
+2. At **Splash Screen**: Wait for `onUpdatedFirebaseRemoteConfig()` callback
+3. **After callback**: Proceed with consent gathering and loading ads
+
+**DO NOT** load or show any ads before `onUpdatedFirebaseRemoteConfig()` is triggered. The SDK needs the Remote Config data to properly configure ad units, networks, and behavior.
 
 ---
 
