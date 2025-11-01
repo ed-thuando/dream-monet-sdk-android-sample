@@ -28,8 +28,9 @@ jobs:
           sed -i'' -E 's/(dream-monet-ads = ")[0-9a-zA-Z\.\-]+(")/\1${{ steps.get_version.outputs.version }}\2/' gradle/libs.versions.toml
 
       - name: Update CHANGELOG.md
-        run: |
-          echo "${{ github.event.client_payload.changelog }}" > CHANGELOG.md
+        env:
+          CHANGELOG_CONTENT: ${{ github.event.client_payload.changelog }}
+        run: printf "%s" "$CHANGELOG_CONTENT" > CHANGELOG.md
 
       - name: Commit and push changes
         run: |
