@@ -1,10 +1,19 @@
-## Changelog 1.0.0-alpha22-SNAPSHOT
+## Changelog 1.0.0-alpha23-SNAPSHOT
 
 ### Key Changes
 
-*   **Interstitial/Native Ad Load Flow Optimization:** The logic for handling interstitial/native ads load has been improved for better performance, metrics and reliability.
-*   **Remove Admob App Id test in manifest**
-### Testing Request
+*   **Added MAX Adapters:**
+    *   Fyber
+    *   Google Ad Manager
+    *   Google
+    *   InMobi
+    *   Vungle
+    *   Facebook
+    *   Mintegral
+    *   Bytedance (Pangle)
+    *   UnityAds
+*   **New Maven Repositories:**
+    *   Mintegral: `https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea`
+    *   Bytedance (Pangle): `https://artifact.bytedance.com/repository/pangle`
 
-We kindly request your help in testing the new load (preload) interstitial, native ad flow to ensure there are no issues with this update. Please report any unexpected behavior.
-```
+---
