@@ -1,7 +1,7 @@
-## Changelog 1.0.0-alpha24-SNAPSHOT
+## Changelog 1.0.0-alpha26-SNAPSHOT
 
 ### Key Changes
 
-*  Update log for maxNative
+*  Optimize Inter load/show
 
 ---
