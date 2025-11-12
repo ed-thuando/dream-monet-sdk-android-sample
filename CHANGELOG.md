@@ -3,6 +3,7 @@
 ### Key Changes
 
 *  Add AdActivities config at SDK Initialize. Please add all Interstitial Ad Activities from Admob mediation Ad networks.
+*  Fix wrong import: use default is 'com.google.android.gms.ads.AdActivity' instead wrong one 'com.vungle.ads.internal.ui.AdActivity'
 ``` kotlin
 val initResult = SDKManager.initialize(
           context = this@MyApp,
