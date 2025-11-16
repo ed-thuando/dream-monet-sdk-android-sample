@@ -1,20 +1,21 @@
-## Changelog 1.0.0-alpha29-SNAPSHOT
+## Changelog 1.0.0-alpha31-SNAPSHOT
 
 ### Key Changes
 
-*  Add AdActivities config at SDK Initialize. Please add all Interstitial Ad Activities from Admob mediation Ad networks.
-*  Optimize flow-speed load/show ads interstitial
-val initResult = SDKManager.initialize(
-          context = this@MyApp,
-          config = InitializeConfig.builder()
-            .setMaxSdkKey(BuildConfig.KEY_MAX)
-            .setAppsFlyerKey(BuildConfig.KEY_APPSFLYER)
-            .setAdActivities(
-              setOf(
-                AdActivity::class.java,
-                TTFullScreenExpressVideoActivity::class.java
-              )
-            )
-            .build(),
-        )
+Add LoadingOverlay when show inter ads, use by adding param isShowLoading when CommonInterstitialAd.show() 
+```
+    interstitialAd.show(
+        requireActivity(),
+        0,
+        isShowLoading = true,
+        callback = object : InterstitialAdShowCallback {
+            override fun onAdShowed() {
+          
+            }
+
+            override fun onShowFailed(error: String) {
+   
+            }
+        }
+    )
 ```
