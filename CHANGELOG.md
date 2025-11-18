@@ -1,21 +1,22 @@
-## Changelog 1.0.0-alpha31-SNAPSHOT
+## Changelog 1.0.0-alpha32-SNAPSHOT
 
 ### Key Changes
 
-Add LoadingOverlay when show inter ads, use by adding param isShowLoading when CommonInterstitialAd.show() 
+- Fix issue show loading blink blink.
+- Support show loading for reward ads.
 ```
-    interstitialAd.show(
-        requireActivity(),
-        0,
-        isShowLoading = true,
-        callback = object : InterstitialAdShowCallback {
-            override fun onAdShowed() {
-          
-            }
+        rewardedAd.show(
+            activity = requireActivity(),
+            timeoutMs = 5000, //default 0ms -> no loading. Only show loading if timeOut > 0
+            callback = object : RewardedAdShowCallback {
+                override fun onShowFailed(error: String) {
+                    updateStatus("AdMob rewarded ad failed to show: $error")
+                }
 
-            override fun onShowFailed(error: String) {
-   
+                override fun onAdRewarded(isRewardEarned: Boolean) {
+                    Toast.makeText(requireContext(), "admob rewarded $isRewardEarned", Toast.LENGTH_SHORT).show()
+                    updateStatus("AdMob rewarded ad rewarded: $isRewardEarned")
+                }
             }
-        }
-    )
+        )
 ```
